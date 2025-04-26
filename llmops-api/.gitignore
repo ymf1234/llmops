@@ -49,7 +49,7 @@ env.bak/
 venv.bak/
 
 # IDE specific files
-.idea/
+*.idea/
 .vscode/
 *.swp
 *.swo
