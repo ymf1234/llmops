@@ -1,0 +1,7 @@
+dotenv~=0.9.9
+python-dotenv~=1.1.0
+injector~=0.22.0
+config~=0.5.1
+flask~=3.1.0
+openai~=1.68.0
+wtforms~=3.2.1
