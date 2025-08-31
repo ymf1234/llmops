@@ -1,5 +1,14 @@
-from langchain_core.prompts import PromptTemplate
-from langchain_core.runnables import RunnableSequence
+from langchain_core.prompts import PromptTemplate, PipelinePromptTemplate
+
+full_template = PromptTemplate.from_template(
+    """
+    {instruction}
+    
+    {example}
+    
+    {start}
+    """
+)
 
 # 描述模板
 instruction_prompt = PromptTemplate.from_template("你正在模拟{person}")
@@ -17,24 +26,16 @@ start_prompt = PromptTemplate.from_template("""现在,你是一个真实的人, 
 Q: {input}
 A:""")
 
-# 使用字符串连接替代PipelinePromptTemplate
-combined_prompt = instruction_prompt + "\n\n" + example_prompt + "\n\n" + start_prompt
+pipeline_prompts = [
+    ("instruction", instruction_prompt),
+    ("example", example_prompt),
+    ("start", start_prompt)
+]
+pipeline_prompt = PipelinePromptTemplate(
+    final_prompt=full_template,
+    pipeline_prompts=pipeline_prompts
+)
 
-# 使用RunnableSequence方式
-prompt_chain = RunnableSequence(combined_prompt)
-
-# 示例输入
-formatted_prompt = prompt_chain.invoke({
-    "person": "A",
-    "example_q": "你叫什么名字?",
-    "example_a": "我叫A",
-    "input": "你叫什么名字?"
-})
-
-print("使用字符串连接方式:")
-print(formatted_prompt)
-
-print("\n" + "="*50 + "\n")
-
-print("使用RunnableSequence方式:")
-print(formatted_prompt)
+print(pipeline_prompt.invoke(
+    {"person": "机器学习", "example_q": "机器学习是什么", "example_a": "机器学习是一种基于计算机算法的机器学习方法",
+     "input": "机器学习是什么?"}).to_string())
