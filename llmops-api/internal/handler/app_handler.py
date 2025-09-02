@@ -39,7 +39,7 @@ class AppHandler:
         app = self.app_service.delete_app(id)
         return success_message(f"应用已经成功删除,名字是{app.name}")
 
-    def completion(self):
+    def debug(self, app_id: uuid.UUID):
         """聊天接口"""
         # 1.提取从接口中获取输入
         req = CompletionRequest()

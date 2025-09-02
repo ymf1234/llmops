@@ -17,7 +17,13 @@ class Response:
 
 def json(data: Response = None):
     """基础的响应接口"""
-    return jsonify(data), 200
+    response = jsonify(data)
+    # 添加跨域头
+    response.headers.add("Access-Control-Allow-Origin", "*")
+    response.headers.add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
+    response.headers.add("Access-Control-Allow-Credentials", "true")
+    return response, 200
 
 
 def success_json(data: Any = None):
