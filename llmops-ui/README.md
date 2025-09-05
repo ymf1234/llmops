@@ -44,6 +44,9 @@ pnpm test:unit
 pnpm lint
 ```
 
+vue:
+https://cn.vuejs.org/guide/introduction
+
 vscode: 配置
 https://blog.51cto.com/u_13188203/13927574
 
@@ -58,3 +61,6 @@ https://pinia.vuejs.org/zh/
 
 Fetch:
 https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API/Using_Fetch
+
+vue flow
+https://vue-flow.nodejs.cn/

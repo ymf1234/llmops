@@ -19,21 +19,21 @@ def json(data: Response = None):
     """基础的响应接口"""
     response = jsonify(data)
     # 添加跨域头
-    response.headers.add("Access-Control-Allow-Origin", "*")
-    response.headers.add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
-    response.headers.add("Access-Control-Allow-Headers", "Content-Type,Authorization")
-    response.headers.add("Access-Control-Allow-Credentials", "true")
+    # response.headers.add("Access-Control-Allow-Origin", 'http://localhost:5173')
+    # response.headers.add("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS")
+    # response.headers.add("Access-Control-Allow-Headers", "Content-Type")
+    # response.headers.add("Access-Control-Allow-Credentials", "true")
     return response, 200
 
 
 def success_json(data: Any = None):
     """成功数据响应"""
-    return jsonify(Response(code=HttpCode.SUCCESS, message="成功返回json数据", data=data))
+    return json(Response(code=HttpCode.SUCCESS, message="成功返回json数据", data=data))
 
 
 def fail_json(data: Any = None):
     """失败数据响应"""
-    return jsonify(Response(code=HttpCode.FAIL, message="", data=data))
+    return json(Response(code=HttpCode.FAIL, message="", data=data))
 
 
 def validate_error_json(errors: dict = None):
@@ -43,12 +43,12 @@ def validate_error_json(errors: dict = None):
         mgs = errors.get(first_key)[0]
     else:
         mgs = "请输入正确的格式"
-    return jsonify(Response(code=HttpCode.VALIDATE_ERROR, message=mgs, data=errors))
+    return json(Response(code=HttpCode.VALIDATE_ERROR, message=mgs, data=errors))
 
 
 def message(code: HttpCode = None, msg: str = ""):
     """基础的消息响应,固定返回消息提示,数据固定为空字典"""
-    return jsonify(Response(code=code, message=msg, data={}))
+    return json(Response(code=code, message=msg, data={}))
 
 
 def success_message(msg: str = ""):

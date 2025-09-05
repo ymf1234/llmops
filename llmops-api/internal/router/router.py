@@ -15,11 +15,11 @@ class Router:
     def register_router(self, app: Flask):
         """注册路由"""
         # 1.创建一个蓝图
-        bp = Blueprint("llmops", __name__, url_prefix="/llmops")
+        bp = Blueprint("llmops", __name__, url_prefix="")
 
         # 2. 将url与对应的控制器方法做绑定
         # bp.add_url_rule("/ping", view_func=self.app_handler.ping)
-        bp.add_url_rule("/apps/<uuid:app_id>/debug", methods=["POST"], view_func=self.app_handler.debug)
+        bp.add_url_rule("/apps/<uuid:app_id>/debug", methods=["POST", "OPTIONS"], view_func=self.app_handler.debug)
         # bp.add_url_rule("/app", methods=["POST"], view_func=self.app_handler.creat_app)
         # bp.add_url_rule("/app/<uuid:id>", methods=["GET"], view_func=self.app_handler.get_app)
         # bp.add_url_rule("/app/<uuid:id>", methods=["POST"], view_func=self.app_handler.update_app)

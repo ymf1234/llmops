@@ -3,7 +3,8 @@
 // 3.我们经常使用 get 和 post, 需要对这两个发放进行封装
 // 4.每次获取数据都要使用 response.json() 才可以获取数据,需要封装
 
-import { apiPrefix } from '@/config'
+import { apiPrefix, httpCode } from '@/config'
+import { Message } from '@arco-design/web-vue'
 
 // 1. 超时时间为 100s
 const TIME_OUT = 100000
@@ -12,7 +13,7 @@ console.log('apiPrefix', apiPrefix)
 // 创建基础配置
 const baseFetchOptions = {
   method: 'GET',
-  model: 'no-cors',
+  model: 'cors',
   credentials: 'include',
   headers: new Headers({
     'Content-Type': 'application/json',
@@ -79,11 +80,21 @@ export const baseFetch = <T>(url: string, fetchOptions: FetchOptionsType): Promi
     new Promise<T>((resolve, reject) => {
       globalThis
         .fetch(urlWithPrefix, options as RequestInit)
-        .then((res) => {
+        .then(async (res) => {
+          console.log(res)
           if (!res.ok) {
             throw new Error(`HTTP ${res.status}: ${res.statusText}`)
           }
-          return res.json() as Promise<T>
+          const json = await res.json()
+          console.log(json)
+          if (json.code === httpCode.success) {
+            resolve(json)
+          } else {
+            Message.error(json.message)
+            reject(new Error(json.message))
+          }
+
+          return res.json()
         })
         .then((data) => {
           resolve(data)
@@ -92,7 +103,7 @@ export const baseFetch = <T>(url: string, fetchOptions: FetchOptionsType): Promi
           reject(err instanceof Error ? err : new Error(String(err)))
         })
     }),
-  ])
+  ]) as Promise<T>
 }
 
 export const request = <T = unknown>(url: string, option = {}): Promise<T> => {

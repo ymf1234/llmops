@@ -33,6 +33,18 @@ class Http(Flask):
         db.init_app(self)
         migrate.init_app(self, db, directory="internal/migration")
 
+        # 解决前后端跨域问题
+        # CORS(self, resources={
+        #     r"/*": {
+        #         "origins": "*",
+        #         "supports_credentials": True,
+        #         # 可不配做
+        #         "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        #         "allow_headers": ["Content-Type", "Authorization"],
+        #
+        #     }
+        # })
+
         # 注册应用路由
         router.register_router(self)
 
